@@ -7,7 +7,7 @@ async fn main() -> Result<()> {
 
     let scene = Scene {};
 
-    scene.run();
+    scene.run().await;
 
     Ok(())
 }
