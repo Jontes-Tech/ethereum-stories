@@ -1,4 +1,4 @@
-use std::env;
+use std::{env, io::Write};
 
 use openai::{
     chat::{ChatCompletion, ChatCompletionMessage, ChatCompletionMessageRole},
@@ -43,22 +43,30 @@ impl Scene {
 
             messages.push(user_message);
 
-            let chat_completion =
-                ChatCompletion::builder("deepseek/deepseek-r1-0528:free", messages.clone())
+            let mut chat_completion =
+                ChatCompletion::builder("google/gemini-2.0-flash-exp:free", messages.clone())
                     .credentials(credentials.clone())
-                    .create()
+                    .create_stream()
                     .await
                     .unwrap();
 
-            let returned_message = chat_completion.choices.first().unwrap().message.clone();
+            loop {
+                let txt = if let Some(txt) = chat_completion.recv().await {
+                    txt
+                } else {
+                    eprintln!("Error: No response received from the chat completion stream.");
+                    break;
+                };
 
-            messages.push(returned_message.clone());
-
-            if let Some(content) = returned_message.content {
-                println!("Response: {}", content);
-            } else {
-                println!("No content in response");
+                if let Some(content) = &txt.choices.first().unwrap().delta.content {
+                    print!("{content}");
+                    std::io::stdout().flush().unwrap();
+                } else {
+                    eprintln!("Error: No content in the response.");
+                    break;
+                }
             }
+            println!();
         }
     }
 }
