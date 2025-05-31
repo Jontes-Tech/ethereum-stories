@@ -66,7 +66,7 @@ Use clear and concise paragraphing. Optionally, include summaries of the current
 
         {
             let mut chat_completion =
-                ChatCompletion::builder("google/gemini-2.0-flash-exp:free", messages.clone())
+                ChatCompletion::builder("deepseek/deepseek-r1-0528:free", messages.clone())
                     .credentials(credentials.clone())
                     .create_stream()
                     .await
