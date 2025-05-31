@@ -53,6 +53,13 @@ Use clear and concise paragraphing. Optionally, include summaries of the current
             function_call: None,
             tool_call_id: None,
             tool_calls: None,
+        }, ChatCompletionMessage {
+            role: ChatCompletionMessageRole::System,
+            content: Some("The user will read your responses in a terminal, so use ANSI color codes but never markdown..".to_string()),
+            name: Some("Ethereum Storyteller".to_string()),
+            function_call: None,
+            tool_call_id: None,
+            tool_calls: None,
         }];
 
         messages.push(ChatCompletionMessage {
