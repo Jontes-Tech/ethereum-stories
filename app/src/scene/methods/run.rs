@@ -55,7 +55,6 @@ Use clear and concise paragraphing. Optionally, include summaries of the current
             tool_calls: None,
         }];
 
-        // Optional: kick off the game with a default user prompt
         messages.push(ChatCompletionMessage {
             role: ChatCompletionMessageRole::User,
             content: Some("Begin the adventure.".to_string()),
@@ -65,7 +64,6 @@ Use clear and concise paragraphing. Optionally, include summaries of the current
             tool_calls: None,
         });
 
-        // Kick off the initial assistant response
         {
             let mut chat_completion =
                 ChatCompletion::builder("google/gemini-2.0-flash-exp:free", messages.clone())
